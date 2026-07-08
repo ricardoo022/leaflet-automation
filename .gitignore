@@ -1,5 +1,21 @@
-./agents*
-./codegraph*
-./venv
-./demo_screenshots
-./docs*
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+
+# Tooling / indexes
+.codegraph/
+.vite/
+.opencode/
+
+# Data & assets (local-only)
+data/
+demo_screenshots/
+*.db
+
+# Environment
+.env
+.env.*
