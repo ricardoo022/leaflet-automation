@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: leaflet-automation
+Version: 0.1.0
+Summary: Backend pipeline for retailer leaflet discovery and product extraction
+Requires-Python: >=3.11
+Requires-Dist: httpx<0.28,>=0.27
+Requires-Dist: Pillow<12,>=10
+Requires-Dist: pydantic<3,>=2.7
+Requires-Dist: pydantic-settings<3,>=2.2
+Requires-Dist: rapidocr-onnxruntime<2,>=1.4
+Requires-Dist: typer<0.13,>=0.12

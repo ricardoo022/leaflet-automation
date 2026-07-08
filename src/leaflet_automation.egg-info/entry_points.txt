@@ -1,0 +1,2 @@
+[console_scripts]
+leaflets = leaflet_automation.cli.main:app

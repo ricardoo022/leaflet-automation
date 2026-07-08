@@ -40,6 +40,18 @@ def initialize_schema(connection: sqlite3.Connection) -> None:
             confidence REAL,
             FOREIGN KEY (leaflet_id) REFERENCES leaflets(id)
         );
+
+        CREATE TABLE IF NOT EXISTS leaflet_pages (
+            leaflet_id TEXT NOT NULL,
+            page_number INTEGER NOT NULL,
+            image_url TEXT,
+            zoom_url TEXT,
+            thumbnail_url TEXT,
+            alt_text TEXT,
+            keywords TEXT,
+            PRIMARY KEY (leaflet_id, page_number),
+            FOREIGN KEY (leaflet_id) REFERENCES leaflets(id)
+        );
         """
     )
     connection.commit()

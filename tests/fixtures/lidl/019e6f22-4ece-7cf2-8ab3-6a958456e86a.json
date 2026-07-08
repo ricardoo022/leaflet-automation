@@ -1,0 +1,49 @@
+{
+  "flyer": {
+    "id": "019e6f22-4ece-7cf2-8ab3-6a958456e86a",
+    "name": "Promoções",
+    "title": "A partir de 01/06",
+    "category": "HHZ PT",
+    "subcategory": "Semanais",
+    "status": "current",
+    "startDate": "2026-05-29",
+    "endDate": "2026-06-07",
+    "offerStartDate": "2026-06-01",
+    "offerEndDate": "2026-06-07",
+    "flyerUrlAbsolute": "https://www.lidl.pt/l/pt/folhetos/promocoes-a-partir-de-01-06/ar/0?lf=HHZ",
+    "pdfUrl": "https://object.storage.eu01.onstackit.cloud/leaflets/pdfs/019e6f22-4ece-7cf2-8ab3-6a958456e86a/Promocoes-A-partir-de-01-06-00.pdf",
+    "hiResPdfUrl": "https://object.storage.eu01.onstackit.cloud/leaflets/pdfs/019e6f22-4ece-7cf2-8ab3-6a958456e86a/Promocoes-A-partir-de-01-06-00.pdf",
+    "thumbnailUrl": "https://imgproxy.leaflets.schwarz/CL7WpeqU7mc3cJcfn8Hzr5HWu2kfB-rneuEpRk1iytw/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMDFfYjUzYzNhYjUyMjdmN2JiMGI1ZWNjNjM4MzVlOTgxZDYucG5n.jpg",
+    "pages": [
+      {
+        "number": 2,
+        "altText": "Página de promoções de talho, peixaria e mercearia, incluindo rojões de porco, bifinhos de peru, dourada fresca e batata vermelha.",
+        "keyWords": "Iva Lidl Poupança Rojões Porco Familiar Vendido Nº5912346 Promoção Bifinhos Perna Peru Nº5913065 Plus Dourada Nº146285 Ocean Sea Tentáculos Pota Nº5914955 Fumadinho Fiambre Extra Nº5911115 Batata Vermelha Nº83285 Couve Lombarda Nacional Nº82960 Maçã Starking Beira Alta Igp 15 Nº80229 Alho Seco Nº82705",
+        "image": "https://imgproxy.leaflets.schwarz/A1lwgLW9YWxcYVvT9nMYJpKXwaKY0LAIC-UHwErFJzY/rs:fit:1200:1200:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMDJfMWVmNjQ1YWE3MjhkNDc2MWNmZGE4NDMyMTZhOGIwNjUucG5n.jpg",
+        "zoom": "https://imgproxy.leaflets.schwarz/61OJTOYsIyFPSrWUlOkMLonBHckM4do5ZTR78z2xjDo/rs:fit:2400:2400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMDJfMWVmNjQ1YWE3MjhkNDc2MWNmZGE4NDMyMTZhOGIwNjUucG5n.jpg",
+        "thumbnail": "https://imgproxy.leaflets.schwarz/vBWmU5ztq5R4p8uu6lRlRJXoZeIyPKXfTRcpOFqrIyw/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMDJfMWVmNjQ1YWE3MjhkNDc2MWNmZGE4NDMyMTZhOGIwNjUucG5n.jpg"
+      },
+      {
+        "number": 4,
+        "altText": "Ofertas de frutas e legumes frescos com desconto, destacando tomate cacho, mirtilos, maçã Golden e couve coração.",
+        "keyWords": "Colher Chorar Vale Mesmo -33 Tomate Cacho Nacional Vendido Nº67 -31 Mirtilo Nº80824 -20 Produtos Loja Mini Maçã Golden Nº80190 -25 Couve Coração Nº41 -41 Cebola Nº98 Pêssego Nº62 Lidl Plus -24 Curgete Nº22 -26 Laranja Sumo Xxl 25 Nº80150",
+        "image": "https://imgproxy.leaflets.schwarz/fW72k6LGoqUS88JPJwVlD41pgaIEGGJofVuh6dzw-R4/rs:fit:1200:1200:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMDRfNGM0ZWFmNWI1OTM5NDljZWQ1MWEyMjMzOTY0NzQ3Y2IucG5n.jpg",
+        "zoom": "https://imgproxy.leaflets.schwarz/T1xnxN1GIBmxIfaDA2RorfszzsvqJ6PXS_sc95XH0oM/rs:fit:2400:2400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMDRfNGM0ZWFmNWI1OTM5NDljZWQ1MWEyMjMzOTY0NzQ3Y2IucG5n.jpg",
+        "thumbnail": "https://imgproxy.leaflets.schwarz/Kf3UUMqRdQXhxJ18syEG3zzmZwibQVHh3MH00ax0vPk/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMDRfNGM0ZWFmNWI1OTM5NDljZWQ1MWEyMjMzOTY0NzQ3Y2IucG5n.jpg"
+      },
+      {
+        "number": 30,
+        "altText": "Promoções de fim de semana em empanadas de frango, croissants brioche, cogumelos frescos e mamão.",
+        "keyWords": "Empanada Frango Cogumelos Nº188320 Lidl Plus -10 Croissant Brioche Nº1706 Leve -26 Cogumelo Nacional Nº80 Mamão Vendido Nº95 -22 -16 Tomate Cherry Pera Nº82411 -19",
+        "image": "https://imgproxy.leaflets.schwarz/t8AGNebLnPuCRjAsr8wVHV2Tm4A2Lqao80j9Sc7l4sE/rs:fit:1200:1200:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMzBfYWQxZjUxOTZkOWY2YTgzMTJlYWNiYjVkNmZkNTFiZGYucG5n.jpg",
+        "zoom": "https://imgproxy.leaflets.schwarz/Cvd_WkTEb01CodgMIIVRGIDBpcxqHAyKlK-DKywvcUY/rs:fit:2400:2400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMzBfYWQxZjUxOTZkOWY2YTgzMTJlYWNiYjVkNmZkNTFiZGYucG5n.jpg",
+        "thumbnail": "https://imgproxy.leaflets.schwarz/bXfO2yPn8IGBNzeBgCrUeTKD11V_FtnpAfEQSm_G76Y/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjItNGVjZS03Y2YyLThhYjMtNmE5NTg0NTZlODZhL3BhZ2UtMzBfYWQxZjUxOTZkOWY2YTgzMTJlYWNiYjVkNmZkNTFiZGYucG5n.jpg"
+      }
+    ],
+    "relatedFlyers": [
+      {
+        "id": "019e6f27-3178-7eb7-a151-758e09e1eb07"
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "flyer": {
+    "id": "019e6f27-3178-7eb7-a151-758e09e1eb07",
+    "name": "Novidades",
+    "title": "A partir de 01/06",
+    "category": "HHZ PT",
+    "subcategory": "Semanais",
+    "status": "current",
+    "startDate": "2026-05-29",
+    "endDate": "2026-06-07",
+    "offerStartDate": "2026-06-01",
+    "offerEndDate": "2026-06-07",
+    "flyerUrlAbsolute": "https://www.lidl.pt/l/pt/folhetos/novidades-a-partir-de-01-06/ar/0?lf=HHZ",
+    "pdfUrl": "https://object.storage.eu01.onstackit.cloud/leaflets/pdfs/019e6f27-3178-7eb7-a151-758e09e1eb07/Novidades-A-partir-de-01-06-00.pdf",
+    "hiResPdfUrl": "https://object.storage.eu01.onstackit.cloud/leaflets/pdfs/019e6f27-3178-7eb7-a151-758e09e1eb07/Novidades-A-partir-de-01-06-00.pdf",
+    "thumbnailUrl": "https://imgproxy.leaflets.schwarz/YLgnPQ-FUXlu1RXXJsliiml8KrMIQfWTflP0krmZHMY/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDFfMGE3YmRkMjBiN2U1Mjc1NjE5NjFkZTY4NGQxYzk4YTAucG5n.jpg",
+    "pages": [
+      {
+        "number": 1,
+        "altText": "Capa de folheto promocional do Lidl com destaques para o robot de cozinha Monsieur Cuisine Smart, grelhador a gás, vestuário desportivo, aspirador Philips e sapateira.",
+        "keyWords": "Preços Euros Válidos Promoções Válidas Período Indicado Artigos Assinalados Salvo Erro Limitado Stock Adereços Fotos Sugestão Acumuláveis Lidl Reserva- Direito Limitar Quantidade Produtos Promoção Adquirir Poderão Disponíveis Lojas Silvercrest Kitchen Tools Robot Monsieur Cuisine Smart Nº503201 Grillmeister Grelhador Gás Queimadores Nº525727 Crivit Corsários Desportivos Senhora Nº508747 Philips Aspirador Saco Nº506800 Livarno Sapateira Nº506350",
+        "image": "https://imgproxy.leaflets.schwarz/KjLffiGtg1rWSwbC3Gnce_QMM34oth4rXBdt59P2boE/rs:fit:1200:1200:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDFfMGE3YmRkMjBiN2U1Mjc1NjE5NjFkZTY4NGQxYzk4YTAucG5n.jpg",
+        "zoom": "https://imgproxy.leaflets.schwarz/zTpNjkB_faOqJB_n1OAuxx5ik3qeP7l33uhfSka1HvI/rs:fit:2400:2400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDFfMGE3YmRkMjBiN2U1Mjc1NjE5NjFkZTY4NGQxYzk4YTAucG5n.jpg",
+        "thumbnail": "https://imgproxy.leaflets.schwarz/YLgnPQ-FUXlu1RXXJsliiml8KrMIQfWTflP0krmZHMY/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDFfMGE3YmRkMjBiN2U1Mjc1NjE5NjFkZTY4NGQxYzk4YTAucG5n.jpg"
+      },
+      {
+        "number": 2,
+        "altText": "Apresentação das funcionalidades inteligentes e acessórios do robot de cozinha Monsieur Cuisine Smart da Silvercrest.",
+        "keyWords": "Cozinha Cuidado Lar Preços Euros Válidos Promoções Válidas Artigos Assinalados Salvo Erro Limitado Stock Adereços Fotos Sugestão Acumuláveis Lidl Reserva- Direito Limitar Quantidade Produtos Promoção Adquirir Poderão Disponíveis Lojas Silvercrest Kitchen Tools Recipiente Mistura Monsieur Cuisine Tampa Abertura Encher Copo Medidor Inserção Lâmina Anel Vedação Nº503276",
+        "image": "https://imgproxy.leaflets.schwarz/3VKsVD4OZloeNAUtuPnX-iewbbwckjXDqe5Um9OTS4U/rs:fit:1200:1200:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDJfYmY4ODkzMDBiOGM1YjhhNDUwMTMwYzFlMzMxNjg4NGUucG5n.jpg",
+        "zoom": "https://imgproxy.leaflets.schwarz/cvYI24xhmnOktcZM3_yEjznmUiZUTzSOuI3fuTHxxs4/rs:fit:2400:2400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDJfYmY4ODkzMDBiOGM1YjhhNDUwMTMwYzFlMzMxNjg4NGUucG5n.jpg",
+        "thumbnail": "https://imgproxy.leaflets.schwarz/p_XSvxmQVhB1Uz9-799ibP5VZD0V64HTLnQsSeJK-a4/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDJfYmY4ODkzMDBiOGM1YjhhNDUwMTMwYzFlMzMxNjg4NGUucG5n.jpg"
+      },
+      {
+        "number": 3,
+        "altText": "Detalhes técnicos e programas automáticos do robot de cozinha Monsieur Cuisine Smart, incluindo funções de cozinhar a vapor, triturar e balança integrada.",
+        "keyWords": "App Disponível Download Temporizador Minutos Ecrã Lâmina Reversível Giratória Esquerda Receitas Pré-Instaladas Possibilidade Adicionar Utilizadores Preços Euros Válidos Promoções Válidas Artigos Assinalados Salvo Erro Limitado Stock Adereços Fotos Sugestão Acumuláveis Lidl Reserva- Direito Limitar Quantidade Produtos Promoção Adquirir Poderão Disponíveis Lojas Silvercrest Kitchen Tools Robot Monsieur Cuisine Smart Programas Automáticos Funcionalidade Pesagem Nº503201",
+        "image": "https://imgproxy.leaflets.schwarz/Qawzrpu9nt1n4iaLph37cL-AZ7vJH8NQYytoOsrbeJU/rs:fit:1200:1200:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDNfZDZkNmFiZDE0ZTU2Nzg5NWI3NmQyMjk5YjY3NDM4YTcucG5n.jpg",
+        "zoom": "https://imgproxy.leaflets.schwarz/hzFllL8rr2JAHi_wPsLwoiL_ul8WrlwPY6K1CAJZ3k8/rs:fit:2400:2400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDNfZDZkNmFiZDE0ZTU2Nzg5NWI3NmQyMjk5YjY3NDM4YTcucG5n.jpg",
+        "thumbnail": "https://imgproxy.leaflets.schwarz/IM5SR8y6ixfCDrJ3zsfqhddyitpfDk-LS2WQJChn_1U/rs:fit:400:400:1/g:no/czM6Ly9sZWFmbGV0cy9pbWFnZXMvMDE5ZTZmMjctMzE3OC03ZWI3LWExNTEtNzU4ZTA5ZTFlYjA3L3BhZ2UtMDNfZDZkNmFiZDE0ZTU2Nzg5NWI3NmQyMjk5YjY3NDM4YTcucG5n.jpg"
+      }
+    ],
+    "relatedFlyers": [
+      {
+        "id": "019e6f22-4ece-7cf2-8ab3-6a958456e86a"
+      }
+    ]
+  }
+}

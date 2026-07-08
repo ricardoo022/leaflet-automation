@@ -7,6 +7,13 @@ class ProductRepository:
     def __init__(self, connection: sqlite3.Connection) -> None:
         self.connection = connection
 
+    def delete_by_leaflet_id(self, leaflet_id: str) -> None:
+        self.connection.execute(
+            "DELETE FROM products WHERE leaflet_id = ?",
+            (leaflet_id,),
+        )
+        self.connection.commit()
+
     def insert_many(self, products: list[ExtractedProduct]) -> None:
         self.connection.executemany(
             """

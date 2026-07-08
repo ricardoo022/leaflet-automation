@@ -9,6 +9,7 @@ class Settings(BaseSettings):
 
     data_dir: Path = Field(default=Path("data"))
     database_path: Path = Field(default=Path("data/leaflets.db"))
+    lidl_fixture_dir: Path | None = Field(default=None)
     retailer: str = Field(default="lidl")
     request_timeout_seconds: float = Field(default=30.0)
     user_agent: str = Field(

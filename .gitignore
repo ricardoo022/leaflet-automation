@@ -1,0 +1,5 @@
+./agents*
+./codegraph*
+./venv
+./demo_screenshots
+./docs*

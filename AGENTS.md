@@ -10,4 +10,4 @@
 - Discovery is currently seeded, not fully dynamic. `src/leaflet_automation/retailers/lidl/discovery.py` starts from hardcoded verified `SEED_FLYER_IDS` and expands through `relatedFlyers`.
 - Do not assume product extraction works yet. `LidlAdapter.extract_products_from_page()` and the OCR/PDF/image/screenshot services are intentional `NotImplementedError` stubs.
 - Candidate Lidl pages are currently filtered only by `altText`/`keyWords` keyword matching in `src/leaflet_automation/retailers/lidl/filters.py`; this is the current category gate for `Frutas & Legumes` work.
-- The detailed reverse-engineering source of truth for Lidl endpoints is `Documents/LIDL_LEAFLETS_API_RESEARCH.md`. Read it before changing discovery, date filtering, or API usage.
+- The detailed reverse-engineering source of truth for Lidl endpoints is `docs/LIDL_LEAFLETS_API_RESEARCH.md`. Read it before changing discovery, date filtering, or API usage.
