@@ -14,64 +14,50 @@ It is intended to hold shared helper services such as:
 
 ## What Currently Works
 
-Only one service has real implemented behavior today:
-
 - `classifier.py`
   - contains a simple keyword-based classifier
-  - maps text to categories using the Lidl keyword lists
+  - maps text to categories using the Lidl keyword lists (`ProductClassifier.classify`)
+
+- `ocr.py`
+  - real OCR via `rapidocr-onnxruntime` (local, no cloud)
+  - `OcrService.extract_lines()` returns `OcrLine` objects with text + bounding box + score
+  - `OcrService.extract_text()` returns a joined string (used in tests)
+
+- `images.py`
+  - `ImageService.detect_product_blocks()` slices a page into N equal vertical strips (heuristic; being replaced by card detection — see note below)
+  - `ImageService.preprocess_for_ocr()` is a pass-through stub returning the same path
+
+- `screenshots.py`
+  - `ScreenshotService.crop()` crops an image box to a PNG file (PIL)
 
 ## What Is Still Stubbed
 
-These modules are intentional placeholders and currently raise `NotImplementedError`:
-
-- `ocr.py`
-- `images.py`
-- `pdf.py`
-- `screenshots.py`
-
-The stub comments point at likely future dependencies such as:
-
-- `pytesseract`
-- Pillow
-- OpenCV
-- PyMuPDF
-- `pdfplumber`
-
-None of those dependencies are wired into the project yet.
+Only `pdf.py` remains a placeholder — PDF extraction is not implemented yet.
 
 ## Important Files
 
-- `classifier.py`
-  - simplest implemented service in the package
-  - currently tied to the Lidl keyword taxonomy
-
-- `ocr.py`
-  - intended page text extraction service
-
-- `images.py`
-  - intended preprocessing and product-block detection service
-
-- `pdf.py`
-  - intended PDF page extraction service
-
-- `screenshots.py`
-  - intended crop helper for product screenshots
+- `classifier.py` — `ProductClassifier.classify()` + `normalize_text()`
+- `ocr.py` — `OcrLine` (text + bbox + score), `OcrService` (RapidOCR; `extract_lines`, `extract_text`)
+- `images.py` — `ImageService.detect_product_blocks()` (equal-strip heuristic, being replaced), `preprocess_for_ocr()` (pass-through)
+- `pdf.py` — PDF extraction, still a stub
+- `screenshots.py` — `ScreenshotService.crop()` PIL crop to disk
 
 ## How It Fits Into The Flow
 
-Today, this package is mostly outside the executed runtime path.
+This package is on the extraction runtime path today. `LidlAdapter._attach_screenshots()` calls `OcrService` → `ImageService.detect_product_blocks()` → `ScreenshotService.crop()` to attach prices and screenshots to each `ExtractedProduct`.
 
-Future extraction flow will likely depend on it heavily:
+Planned flow (per the card-extraction design spec at `docs/superpowers/specs/...`):
 
 1. obtain page assets
-2. preprocess page images
-3. extract OCR text
-4. detect product blocks
-5. crop screenshots
+2. detect product cards (new `services/cards.py`, retailer-agnostic)
+3. extract OCR text per card
+4. assign OCR lines to cards
+5. crop one screenshot per card
 6. build precise `ExtractedProduct` records
 
 ## Maintainer Notes
 
-- Do not assume these services are production-ready; most of them are scaffolds only.
-- The current dependency set in `pyproject.toml` does not include the OCR/PDF/image libraries mentioned in stub comments.
-- Although this package is meant to be shared infrastructure, the current classifier logic is retailer-specific because it reuses Lidl keyword lists.
+- `ocr.py`, `images.py`, and `screenshots.py` are implemented and on the runtime path. Only `pdf.py` is a stub.
+- Declared deps in `pyproject.toml`: `Pillow`, `rapidocr-onnxruntime`. `opencv-python` and `numpy` are installed in the venv but not declared yet — declare `opencv-python>=4.8` when the card-detection work lands.
+- `ImageService.detect_product_blocks()` is a known-weak equal-strip heuristic; the card-extraction design spec replaces it with a `CardDetector` in a new `cards.py`.
+- Although this package is meant to be shared infrastructure, the classifier logic is retailer-specific because it reuses Lidl keyword lists.

@@ -28,8 +28,10 @@ It is the top-level execution surface for the repository.
   - prints one line per discovered target leaflet
 
 - `leaflets extract-lidl <leaflet-id>`
-  - currently a placeholder
-  - does not execute real extraction logic yet
+  - runs real extraction on one discovered leaflet
+  - loads the leaflet from SQLite, finds candidate pages, extracts products, persists them
+  - prints a one-line summary (candidate pages, extracted count, persisted count)
+  - returns exit code 1 with a friendly message if the leaflet ID is unknown
 
 - `leaflets run-weekly-lidl`
   - runs the weekly wrapper job
@@ -46,7 +48,7 @@ The CLI is the entrypoint for all current runnable behavior:
 
 ## Maintainer Notes
 
-- `extract-lidl` exists in the interface before the backend flow exists.
+- `extract-lidl` is implemented end-to-end (lookup → extract → persist → print summary). It is accuracy-limited, not a placeholder.
 - `run-weekly-lidl` currently behaves more like "run current Lidl discovery" than a strict weekly-only workflow.
 - There are no command flags yet for output format, date overrides, debugging, or retailer selection.
 - Error handling is currently minimal and mostly left to exceptions from deeper layers.
