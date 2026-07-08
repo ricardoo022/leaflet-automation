@@ -51,6 +51,34 @@ class KeywordFallbackUnionTests(unittest.TestCase):
         for alt_name in ("tomate cacho", "mirtilos", "maçã golden", "couve coração"):
             self.assertIn(alt_name, alt_origin)
 
+    def test_merged_keyword_name_deduplicated_case_insensitively_with_alt_text_precedence(self) -> None:
+        leaflet = Leaflet(
+            id="L",
+            retailer="lidl",
+            name="",
+            title="",
+            url="",
+            program_type=ProgramType.WEEKLY,
+            offer_start_date=date(2026, 6, 1),
+            offer_end_date=date(2026, 6, 7),
+        )
+        page = LeafletPage(
+            leaflet_id="L",
+            page_number=4,
+            alt_text="com destaque para tomate cacho",
+            keywords="stock Tomate Cacho Nºb",
+        )
+
+        adapter = LidlAdapter()
+        try:
+            products = adapter.extract_products_from_page(leaflet, page)
+        finally:
+            adapter.close()
+
+        self.assertEqual(len(products), 1)
+        self.assertEqual(products[0].name.lower(), "tomate cacho")
+        self.assertEqual(products[0].confidence, 0.8)
+
 
 if __name__ == "__main__":
     unittest.main()

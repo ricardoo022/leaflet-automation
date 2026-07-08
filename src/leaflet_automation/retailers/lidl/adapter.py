@@ -49,13 +49,18 @@ class LidlAdapter(RetailerAdapter):
             for marker in ("frutas", "fruta", "legumes", "frescos")
         )
         products: list[ExtractedProduct] = []
+        seen_names: set[str] = set()
 
         for name in extract_product_names_from_alt_text(page.alt_text):
+            key = name.strip().casefold()
+            if not name or key in seen_names:
+                continue
             category = self.classifier.classify(name)
             if category is None and produce_context:
                 category = page_category
             if category is None:
                 continue
+            seen_names.add(key)
             products.append(
                 ExtractedProduct(
                     retailer=self.retailer,
@@ -72,9 +77,13 @@ class LidlAdapter(RetailerAdapter):
             )
 
         for name in extract_product_names_from_keywords(page.keywords):
+            key = name.strip().casefold()
+            if not name or key in seen_names:
+                continue
             category = self.classifier.classify(name)
             if category is None:
                 continue
+            seen_names.add(key)
             products.append(
                 ExtractedProduct(
                     retailer=self.retailer,
