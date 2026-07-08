@@ -2,7 +2,7 @@
 
 Date: 2026-07-08
 Status: Approved (pending user review)
-Supersedes relevant sections of: `Documents/IMPLEMENTATION_BACKLOG.md` (Epic 2 / Epic 3 re: extraction accuracy & screenshots)
+Supersedes relevant sections of: `docs/IMPLEMENTATION_BACKLOG.md` (Epic 2 / Epic 3 re: extraction accuracy & screenshots)
 
 ## 1. Problem Statement
 
