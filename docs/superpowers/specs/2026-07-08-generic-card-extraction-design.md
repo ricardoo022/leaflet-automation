@@ -24,6 +24,15 @@ A third structural problem the user wants addressed:
 - Price and name are read from text that actually belongs to the same card as the product.
 - The detection/extraction core is **retailer-agnostic** and reusable by any future retailer adapter (Continente, Pingo Doce, ...). Lidl is the first consumer, not the only one.
 
+### Scope focus: fruits only (this slice)
+
+The **success criterion for this slice is scoped to fruits** ("Frutas"). The category already exists in `src/leaflet_automation/retailers/lidl/keywords.py:2` (`CATEGORY_KEYWORDS["frutas"]`: banana, maçã, mirtilos, mamão, pera, pêssego, laranja, uva, melão, morango, ...).
+
+What this means concretely:
+- The candidate-page and product filters (`filters.py`, `classifier.py`) preserve all categories, but the **acceptance tests and regression verification for this slice assert completeness only on fruit cards** — i.e. "every fruit on the latest leaflet's produce pages is extracted, none dropped."
+- The card-detection + per-card OCR infrastructure is built generically so that "vegetables" ("Legumes") and other categories work without rewrites later — we simply do not assert completion for them in this slice.
+- Rationale: "every fruit" is a sharp, measurable success criterion ("the latest leaflet's produce pages → one row + one screenshot per fruit card, nothing missing"). Vegetables/other categories reuse the same machinery in a future slice.
+
 ### Non-Goals (this slice)
 - Wiring the generic extractor into a non-Lidl retailer (no fixtures for other retailers exist yet).
 - Exact price-accuracy guarantees across all layouts (heuristics improve accuracy; no formal accuracy target).
@@ -436,6 +445,7 @@ As a developer, I want an integration test that asserts the page-04 mistakes are
   - Number of products per page equals number of detected cards with a name.
   - Each saved screenshot's pixel dimensions are consistent with one CardBox (not a full-width strip of `width × height/N`).
   - Page-04 produces ≥ the number of products visible in keywords (i.e. keyword names not dropped).
+  - **Fruit completeness:** every fruit card on the latest leaflet's produce pages (category `"frutas"`) is extracted — none dropped. Verified by cross-checking detected fruit cards against `CATEGORY_KEYWORDS["frutas"]` and asserting the extracted fruit product count equals the fruit-card count.
   - Prices assigned to products belong to the same card (mocked OCR lines per card).
 
 **Acceptance Criteria:**
@@ -478,3 +488,4 @@ As a developer, I want an integration test that asserts the page-04 mistakes are
 - External/proprietary AI/LLM vision services (explicitly rejected in brainstorming — local libs only).
 - Wiring the generic extractor into non-Lidl retailers (no fixtures yet; future epic).
 - Dynamic discovery improvements (Epic 4 of the existing backlog).
+- **Completeness assertions for non-fruit categories** (vegetables "Legumes", cogumelos, etc.). The card-detection + OCR infrastructure supports them, but this slice's acceptance tests only assert completeness for the `"frutas"` category. Adding completeness coverage for other categories is a future slice once the fruit path is proven end-to-end.
