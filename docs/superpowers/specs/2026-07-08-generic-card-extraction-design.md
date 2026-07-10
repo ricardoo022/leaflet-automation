@@ -145,13 +145,14 @@ Stories follow the format: **US-X.Y: Title** — *Como <role>, quero <goal>, par
 
 ---
 
-#### US-1.1: Projection-profile grid detector
+#### US-1.1: Projection-profile grid detector  ✅ DONE (PR #2)
 
 As the engine, I want to detect the row/column grid of a leaflet page so that every product card gets its own bounding box.
 
 - **Priority:** Must Have
 - **Effort:** M
 - **Dependencies:** None
+- **Status:** Implemented in `src/leaflet_automation/services/cards.py` (`CardBox`, `CardDetector._grid_boxes`). Grid detection uses per-row/per-column dark-pixel energy profiles (PIL + numpy); whitespace gaps (below `GAP_RATIO=0.08` of max energy) become grid lines; cells = row-band × col-band Cartesian product, sorted top→bottom, left→right. Degenerate inputs (empty / solid-color) return `[]` via the `threshold <= 0` early return + the full-span 0.98 guard. Only `numpy` + `Pillow` used (no `cv2`). Covered by `tests/test_cards.py` (12 offline tests: CardBox centers, degenerate images, synthetic 2×2 grid, real `page-04.png` smoke). PR #2, branch `us-1-1-grid-detector`. **Not yet wired into the adapter** (that is US-3.1); see "US-1.1 grid-only limitation" under US-5.2.
 
 **Requirements:**
 - Implement a grid detector using projection profiles (per-row and per-column sum of dark-pixel energy) computed with PIL + numpy.
@@ -478,8 +479,8 @@ As a developer, I want an integration test that asserts the page-04 mistakes are
 
 ## 10. Recommended Delivery Order
 
-1. **US-4.1** — keyword fallback union (cheap, immediate coverage win, isolated change).
-2. **Epic 1** (US-1.1 → US-1.2 → US-1.3) — card detection foundation.
+1. ~~**US-4.1** — keyword fallback union (cheap, immediate coverage win, isolated change).~~ ✅ DONE (PR #1)
+2. **Epic 1** (~~US-1.1~~ ✅ DONE (PR #2) → US-1.2 → US-1.3) — card detection foundation.
 3. **Epic 2** (US-2.1 → US-2.3 → US-2.2) — per-card data extraction.
 4. **US-3.1** — per-card screenshots (the headline fix).
 5. **US-3.2** — optional box persistence.
