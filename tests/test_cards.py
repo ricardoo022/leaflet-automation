@@ -1,5 +1,8 @@
+import tempfile
 import unittest
 from pathlib import Path
+
+from PIL import Image, ImageDraw
 
 from leaflet_automation.services.cards import CardBox, CardDetector
 
@@ -25,11 +28,7 @@ class CardBoxTests(unittest.TestCase):
         self.assertEqual((box.x, box.y, box.w, box.h), (1, 2, 3, 4))
 
 
-import tempfile
-
-
 def _make_solid_image(path: Path, size: tuple[int, int], fill: tuple[int, int, int]) -> None:
-    from PIL import Image
     Image.new("RGB", size, fill).save(path)
 
 
@@ -55,7 +54,6 @@ class GridDetectorDegenerateTests(unittest.TestCase):
 
 
 def _make_grid_image(path: Path) -> None:
-    from PIL import Image, ImageDraw
     img = Image.new("RGB", (400, 400), (255, 255, 255))
     draw = ImageDraw.Draw(img)
     card_w, card_h = 180, 180
@@ -107,6 +105,8 @@ class GridDetectorPage04Tests(unittest.TestCase):
     def test_returns_at_least_two_boxes_on_page04(self) -> None:
         boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
         self.assertGreaterEqual(len(boxes), 2)
+        self.assertGreaterEqual(len({box.x for box in boxes}), 2)
+        self.assertGreaterEqual(len({box.y for box in boxes}), 2)
 
     def test_boxes_sorted_and_non_overlapping_on_page04(self) -> None:
         boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
@@ -120,7 +120,6 @@ class GridDetectorPage04Tests(unittest.TestCase):
 
     def test_boxes_cover_large_share_of_page_area(self) -> None:
         boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
-        from PIL import Image
         with Image.open(FIXTURE_PAGE04) as img:
             total = img.size[0] * img.size[1]
         covered = sum(b.w * b.h for b in boxes)
