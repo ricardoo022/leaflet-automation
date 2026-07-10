@@ -102,5 +102,30 @@ class GridDetectorSyntheticTests(unittest.TestCase):
                 self.assertEqual(overlap_x * overlap_y, 0)
 
 
+@unittest.skipUnless(FIXTURE_PAGE04.exists(), "page-04 fixture missing")
+class GridDetectorPage04Tests(unittest.TestCase):
+    def test_returns_at_least_two_boxes_on_page04(self) -> None:
+        boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
+        self.assertGreaterEqual(len(boxes), 2)
+
+    def test_boxes_sorted_and_non_overlapping_on_page04(self) -> None:
+        boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
+        keys = [(b.y, b.x) for b in boxes]
+        self.assertEqual(keys, sorted(keys))
+        for i, a in enumerate(boxes):
+            for b in boxes[i + 1:]:
+                overlap_x = max(0, min(a.x + a.w, b.x + b.w) - max(a.x, b.x))
+                overlap_y = max(0, min(a.y + a.h, b.y + b.h) - max(a.y, b.y))
+                self.assertEqual(overlap_x * overlap_y, 0)
+
+    def test_boxes_cover_large_share_of_page_area(self) -> None:
+        boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
+        from PIL import Image
+        with Image.open(FIXTURE_PAGE04) as img:
+            total = img.size[0] * img.size[1]
+        covered = sum(b.w * b.h for b in boxes)
+        self.assertGreater(covered / total, 0.40)
+
+
 if __name__ == "__main__":
     unittest.main()
