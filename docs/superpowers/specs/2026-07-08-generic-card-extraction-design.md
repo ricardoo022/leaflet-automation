@@ -126,7 +126,7 @@ def assign_lines_to_cards(lines: list[OcrLine], cards: list[CardBox]) -> list[li
 
 - `Pillow` — already declared.
 - `numpy` — already installed (transitive).
-- `opencv-python` — already installed in the venv but **NOT declared** in `pyproject.toml`. Action: add `opencv-python>=4.8` to `[project.dependencies]` (US-1.2).
+- `opencv-python` — ✅ declared `opencv-python>=4.8,<5` in `[project.dependencies]` (US-1.2 DONE, PR #3).
 - `rapidocr-onnxruntime` — already declared.
 
 No new external/AI services introduced.
@@ -171,13 +171,14 @@ As the engine, I want to detect the row/column grid of a leaflet page so that ev
 
 ---
 
-#### US-1.2: OpenCV contour fallback
+#### US-1.2: OpenCV contour fallback  ✅ DONE (PR #3)
 
 As the engine, I want a contour-based fallback so that decorative/non-grid layouts still yield per-product boxes.
 
 - **Priority:** Must Have
 - **Effort:** M
 - **Dependencies:** US-1.1
+- **Status:** Implemented in `src/leaflet_automation/services/cards.py` (`CardDetector._contour_boxes`, `_iou`, `_nms`, contour tuning constants). Path: `cv2.imread` → adaptive threshold (`ADAPTIVE_THRESH_GAUSSIAN_C`) → morphological close (`MORPH_RECT` kernel) → `findContours(RETR_EXTERNAL)` → area/aspect filter (`MIN_AREA_RATIO`/`MAX_AREA_RATIO`/`MIN_ASPECT`/`MAX_ASPECT`) → greedy IoU NMS (`NMS_IOU=0.3`) → reuse existing `_sort_tb_lr`. Degenerate inputs (missing file → `imread` returns `None`, 1×1, solid-color, zero-area image) return `[]` without raising. Tuned constants against the real `page-04.png` fixture: `MORPH_KERNEL=21`, `ADAPTIVE_C=5` (within sanctioned plan ranges) — yields 3 pixel-disjoint boxes with 3 distinct x-columns on page-04, satisfying the distinct-column guard the US-1.1 grid-only path could not meet on the dense real produce page. `opencv-python>=4.8,<5` declared in `pyproject.toml`. Covered by `tests/test_cards.py` (10 new offline tests: 4 degenerate, 3 synthetic 3-rectangle, 3 real `page-04.png`). PR #3, branch `us-1-2-opencv-contour-fallback`. The unified `detect()` orchestration ("try grid, fall back to contours") is US-1.3 (not yet done). A large merged box (~694×627 px on page-04) is a known artifact within US-1.2 acceptance; per-card regression quality is deferred to US-5.2.
 
 **Requirements:**
 - Implement `_contour_boxes()` using `cv2` (adaptive threshold + findContours + area/aspect filtering).
@@ -451,7 +452,7 @@ As a developer, I want an integration test that asserts the page-04 mistakes are
   - Prices assigned to products belong to the same card (mocked OCR lines per card).
   - **Page-04 distinct-column guard (deferred from US-1.1):** assert `len({box.x for box in CardDetector().detect(page-04)}) >= 2` (and `len({box.y ...}) >= 2`). This guard was prototyped during US-1.1 but is RED there because the grid-only `_grid_boxes` saturates on the dense real produce page (no full-height/full-width gutter → returns full-width strips; see "US-1.1 grid-only limitation" below). It becomes enforceable once the US-1.2 contour fallback (or a per-row-band column-profile improvement) makes the detector return ≥2 columns on page-04. **US-5.2 must assert ≥2 distinct columns on page-04** once `CardDetector.detect()` (US-1.3) is in place. Until then it lives only as the synthetic-grid guard `test_synthetic_grid_has_distinct_columns_not_full_width_strips`.
 
-**US-1.1 grid-only limitation (recorded 2026-07-10):** the global projection-profile approach in `CardDetector._grid_boxes` detects clean grids where gutters span the full page (synthetic 2×2 grid → 4 cells). On dense real flyers like `page-04.png` (1415×2400, near full-bleed artwork), every column has >~1845/2400 dark pixels and every row >~113/1415, so the `GAP_RATIO=0.08` threshold admits zero gap rows/columns and the detector collapses to full-width strips (effectively one box ≈ the whole page). Real per-card grid detection on such pages is handled by the US-1.2 OpenCV contour fallback and the US-5.2 per-card regression, NOT US-1.1. A future improvement (per-row-band column profiling / local-minima gap detection) is tracked for a later slice.
+**US-1.1 grid-only limitation (recorded 2026-07-10):** the global projection-profile approach in `CardDetector._grid_boxes` detects clean grids where gutters span the full page (synthetic 2×2 grid → 4 cells). On dense real flyers like `page-04.png` (1415×2400, near full-bleed artwork), every column has >~1845/2400 dark pixels and every row >~113/1415, so the `GAP_RATIO=0.08` threshold admits zero gap rows/columns and the detector collapses to full-width strips (effectively one box ≈ the whole page). Real per-card grid detection on such pages is handled by the US-1.2 OpenCV contour fallback (✅ DONE, PR #3) and the US-5.2 per-card regression, NOT US-1.1. A future improvement (per-row-band column profiling / local-minima gap detection) is tracked for a later slice.
 
 **Acceptance Criteria:**
 - The regression test fails on the current (buggy) `detect_product_blocks` + exclusive branch and passes after the fix.
@@ -480,7 +481,7 @@ As a developer, I want an integration test that asserts the page-04 mistakes are
 ## 10. Recommended Delivery Order
 
 1. ~~**US-4.1** — keyword fallback union (cheap, immediate coverage win, isolated change).~~ ✅ DONE (PR #1)
-2. **Epic 1** (~~US-1.1~~ ✅ DONE (PR #2) → US-1.2 → US-1.3) — card detection foundation.
+2. **Epic 1** (~~US-1.1~~ ✅ DONE (PR #2) → ~~US-1.2~~ ✅ DONE (PR #3) → US-1.3) — card detection foundation.
 3. **Epic 2** (US-2.1 → US-2.3 → US-2.2) — per-card data extraction.
 4. **US-3.1** — per-card screenshots (the headline fix).
 5. **US-3.2** — optional box persistence.
