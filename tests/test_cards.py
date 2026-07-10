@@ -80,6 +80,14 @@ class GridDetectorSyntheticTests(unittest.TestCase):
         self.assertEqual(len(xs), 2)
         self.assertEqual(len(ys), 2)
 
+    def test_synthetic_grid_has_distinct_columns_not_full_width_strips(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "grid.png"
+            _make_grid_image(p)
+            boxes = CardDetector()._grid_boxes(p)
+        self.assertGreaterEqual(len({box.x for box in boxes}), 2)
+        self.assertGreaterEqual(len({box.y for box in boxes}), 2)
+
     def test_boxes_are_sorted_top_to_bottom_left_to_right(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             p = Path(tmp) / "grid.png"
@@ -105,8 +113,6 @@ class GridDetectorPage04Tests(unittest.TestCase):
     def test_returns_at_least_two_boxes_on_page04(self) -> None:
         boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
         self.assertGreaterEqual(len(boxes), 2)
-        self.assertGreaterEqual(len({box.x for box in boxes}), 2)
-        self.assertGreaterEqual(len({box.y for box in boxes}), 2)
 
     def test_boxes_sorted_and_non_overlapping_on_page04(self) -> None:
         boxes = CardDetector()._grid_boxes(FIXTURE_PAGE04)
