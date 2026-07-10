@@ -145,13 +145,14 @@ Stories follow the format: **US-X.Y: Title** — *Como <role>, quero <goal>, par
 
 ---
 
-#### US-1.1: Projection-profile grid detector
+#### US-1.1: Projection-profile grid detector  ✅ DONE (PR #2)
 
 As the engine, I want to detect the row/column grid of a leaflet page so that every product card gets its own bounding box.
 
 - **Priority:** Must Have
 - **Effort:** M
 - **Dependencies:** None
+- **Status:** Implemented in `src/leaflet_automation/services/cards.py` (`CardBox`, `CardDetector._grid_boxes`). Grid detection uses per-row/per-column dark-pixel energy profiles (PIL + numpy); whitespace gaps (below `GAP_RATIO=0.08` of max energy) become grid lines; cells = row-band × col-band Cartesian product, sorted top→bottom, left→right. Degenerate inputs (empty / solid-color) return `[]` via the `threshold <= 0` early return + the full-span 0.98 guard. Only `numpy` + `Pillow` used (no `cv2`). Covered by `tests/test_cards.py` (12 offline tests: CardBox centers, degenerate images, synthetic 2×2 grid, real `page-04.png` smoke). PR #2, branch `us-1-1-grid-detector`. **Not yet wired into the adapter** (that is US-3.1); see "US-1.1 grid-only limitation" under US-5.2.
 
 **Requirements:**
 - Implement a grid detector using projection profiles (per-row and per-column sum of dark-pixel energy) computed with PIL + numpy.
@@ -448,6 +449,9 @@ As a developer, I want an integration test that asserts the page-04 mistakes are
   - Page-04 produces ≥ the number of products visible in keywords (i.e. keyword names not dropped).
   - **Fruit completeness:** every fruit card on the latest leaflet's produce pages (category `"frutas"`) is extracted — none dropped. Verified by cross-checking detected fruit cards against `CATEGORY_KEYWORDS["frutas"]` and asserting the extracted fruit product count equals the fruit-card count.
   - Prices assigned to products belong to the same card (mocked OCR lines per card).
+  - **Page-04 distinct-column guard (deferred from US-1.1):** assert `len({box.x for box in CardDetector().detect(page-04)}) >= 2` (and `len({box.y ...}) >= 2`). This guard was prototyped during US-1.1 but is RED there because the grid-only `_grid_boxes` saturates on the dense real produce page (no full-height/full-width gutter → returns full-width strips; see "US-1.1 grid-only limitation" below). It becomes enforceable once the US-1.2 contour fallback (or a per-row-band column-profile improvement) makes the detector return ≥2 columns on page-04. **US-5.2 must assert ≥2 distinct columns on page-04** once `CardDetector.detect()` (US-1.3) is in place. Until then it lives only as the synthetic-grid guard `test_synthetic_grid_has_distinct_columns_not_full_width_strips`.
+
+**US-1.1 grid-only limitation (recorded 2026-07-10):** the global projection-profile approach in `CardDetector._grid_boxes` detects clean grids where gutters span the full page (synthetic 2×2 grid → 4 cells). On dense real flyers like `page-04.png` (1415×2400, near full-bleed artwork), every column has >~1845/2400 dark pixels and every row >~113/1415, so the `GAP_RATIO=0.08` threshold admits zero gap rows/columns and the detector collapses to full-width strips (effectively one box ≈ the whole page). Real per-card grid detection on such pages is handled by the US-1.2 OpenCV contour fallback and the US-5.2 per-card regression, NOT US-1.1. A future improvement (per-row-band column profiling / local-minima gap detection) is tracked for a later slice.
 
 **Acceptance Criteria:**
 - The regression test fails on the current (buggy) `detect_product_blocks` + exclusive branch and passes after the fix.
@@ -475,8 +479,8 @@ As a developer, I want an integration test that asserts the page-04 mistakes are
 
 ## 10. Recommended Delivery Order
 
-1. **US-4.1** — keyword fallback union (cheap, immediate coverage win, isolated change).
-2. **Epic 1** (US-1.1 → US-1.2 → US-1.3) — card detection foundation.
+1. ~~**US-4.1** — keyword fallback union (cheap, immediate coverage win, isolated change).~~ ✅ DONE (PR #1)
+2. **Epic 1** (~~US-1.1~~ ✅ DONE (PR #2) → US-1.2 → US-1.3) — card detection foundation.
 3. **Epic 2** (US-2.1 → US-2.3 → US-2.2) — per-card data extraction.
 4. **US-3.1** — per-card screenshots (the headline fix).
 5. **US-3.2** — optional box persistence.

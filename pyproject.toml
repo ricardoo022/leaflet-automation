@@ -12,6 +12,11 @@ dependencies = [
   "typer>=0.12,<0.13",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=7",
+]
+
 [project.scripts]
 leaflets = "leaflet_automation.cli.main:app"
 
@@ -24,3 +29,11 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+  "e2e: end-to-end tests that call the REAL external Lidl API and real SQLite via a real OS subprocess (gated behind --run-e2e)",
+]
