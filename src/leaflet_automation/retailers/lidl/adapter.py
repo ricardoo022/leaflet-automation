@@ -49,15 +49,19 @@ class LidlAdapter(RetailerAdapter):
             for marker in ("frutas", "fruta", "legumes", "frescos")
         )
         products: list[ExtractedProduct] = []
-        alt_text_products: list[ExtractedProduct] = []
+        seen_names: set[str] = set()
 
         for name in extract_product_names_from_alt_text(page.alt_text):
+            key = name.strip().casefold()
+            if not name or key in seen_names:
+                continue
             category = self.classifier.classify(name)
             if category is None and produce_context:
                 category = page_category
             if category is None:
                 continue
-            alt_text_products.append(
+            seen_names.add(key)
+            products.append(
                 ExtractedProduct(
                     retailer=self.retailer,
                     leaflet_id=leaflet.id,
@@ -72,26 +76,28 @@ class LidlAdapter(RetailerAdapter):
                 )
             )
 
-        products.extend(alt_text_products)
-        if not alt_text_products:
-            for name in extract_product_names_from_keywords(page.keywords):
-                category = self.classifier.classify(name)
-                if category is None:
-                    continue
-                products.append(
-                    ExtractedProduct(
-                        retailer=self.retailer,
-                        leaflet_id=leaflet.id,
-                        page_number=page.page_number,
-                        program_type=leaflet.program_type,
-                        category=category,
-                        name=name,
-                        promo_start=leaflet.offer_start_date,
-                        promo_end=leaflet.offer_end_date,
-                        raw_text=page.keywords or "",
-                        confidence=0.55,
-                    )
+        for name in extract_product_names_from_keywords(page.keywords):
+            key = name.strip().casefold()
+            if not name or key in seen_names:
+                continue
+            category = self.classifier.classify(name)
+            if category is None:
+                continue
+            seen_names.add(key)
+            products.append(
+                ExtractedProduct(
+                    retailer=self.retailer,
+                    leaflet_id=leaflet.id,
+                    page_number=page.page_number,
+                    program_type=leaflet.program_type,
+                    category=category,
+                    name=name,
+                    promo_start=leaflet.offer_start_date,
+                    promo_end=leaflet.offer_end_date,
+                    raw_text=page.keywords or "",
+                    confidence=0.55,
                 )
+            )
 
         if products:
             self._attach_screenshots(leaflet, page, products)
