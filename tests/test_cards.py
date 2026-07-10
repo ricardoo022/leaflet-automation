@@ -54,5 +54,53 @@ class GridDetectorDegenerateTests(unittest.TestCase):
             self.assertIsInstance(result, list)
 
 
+def _make_grid_image(path: Path) -> None:
+    from PIL import Image, ImageDraw
+    img = Image.new("RGB", (400, 400), (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+    card_w, card_h = 180, 180
+    for row in range(2):
+        for col in range(2):
+            x0 = 10 + col * 200
+            y0 = 10 + row * 200
+            draw.rectangle(
+                [x0, y0, x0 + card_w - 1, y0 + card_h - 1],
+                fill=(30, 30, 30),
+            )
+    img.save(path)
+
+
+class GridDetectorSyntheticTests(unittest.TestCase):
+    def test_detects_four_cells_in_2x2_grid(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "grid.png"
+            _make_grid_image(p)
+            boxes = CardDetector()._grid_boxes(p)
+        self.assertEqual(len(boxes), 4)
+        xs = sorted({b.x for b in boxes})
+        ys = sorted({b.y for b in boxes})
+        self.assertEqual(len(xs), 2)
+        self.assertEqual(len(ys), 2)
+
+    def test_boxes_are_sorted_top_to_bottom_left_to_right(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "grid.png"
+            _make_grid_image(p)
+            boxes = CardDetector()._grid_boxes(p)
+        keys = [(b.y, b.x) for b in boxes]
+        self.assertEqual(keys, sorted(keys))
+
+    def test_boxes_do_not_overlap(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "grid.png"
+            _make_grid_image(p)
+            boxes = CardDetector()._grid_boxes(p)
+        for i, a in enumerate(boxes):
+            for b in boxes[i + 1:]:
+                overlap_x = max(0, min(a.x + a.w, b.x + b.w) - max(a.x, b.x))
+                overlap_y = max(0, min(a.y + a.h, b.y + b.h) - max(a.y, b.y))
+                self.assertEqual(overlap_x * overlap_y, 0)
+
+
 if __name__ == "__main__":
     unittest.main()
