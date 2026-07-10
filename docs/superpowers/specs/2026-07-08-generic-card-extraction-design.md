@@ -357,13 +357,14 @@ As an operator, I want the card's box stored on the product record so later revi
 
 ---
 
-#### US-4.1: Keyword fallback runs in union with alt-text
+#### US-4.1: Keyword fallback runs in union with alt-text  ✅ DONE (PR #1)
 
 As the engine, I want the keyword fallback to run even when alt-text already yields names so every visible product is identified.
 
 - **Priority:** Must Have
 - **Effort:** S
 - **Dependencies:** None
+- **Status:** Implemented in `src/leaflet_automation/retailers/lidl/adapter.py` (`extract_products_from_page`). The exclusive `if not alt_text_products:` gate is removed; both alt-text and keyword loops always run in union. Cross-source de-duplication is a shared `seen_names` set keyed on `name.strip().casefold()` (alt-text runs first, so it wins ties at confidence 0.8). Covered by `tests/test_us_4_1_keyword_union.py` (2/2 offline green). No integration-suite regression (14 offline-safe tests unchanged).
 
 **Requirements:**
 - Remove the exclusive branch at `adapter.py:76` (`if not alt_text_products:` → always run keyword extraction; merge results).
