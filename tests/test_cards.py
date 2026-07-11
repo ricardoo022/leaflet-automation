@@ -241,6 +241,13 @@ class DetectUnifiedTests(unittest.TestCase):
         self.assertIsInstance(boxes, list)
         self.assertGreaterEqual(len(boxes), 1)
 
+    def test_detect_does_not_raise_on_missing_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "does_not_exist.png"
+            result = CardDetector().detect(p)
+        self.assertIsInstance(result, list)
+        self.assertEqual(result, [])
+
 
 if __name__ == "__main__":
     unittest.main()

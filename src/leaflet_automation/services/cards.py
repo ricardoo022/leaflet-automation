@@ -67,7 +67,10 @@ class CardDetector:
         return self._sort_tb_lr(boxes)
 
     def detect(self, image_path: Path) -> list[CardBox]:
-        grid = self._grid_boxes(image_path)
+        try:
+            grid = self._grid_boxes(image_path)
+        except (FileNotFoundError, OSError):
+            grid = []
         if self._is_clean_grid(grid):
             return grid
         return self._contour_boxes(image_path)
