@@ -225,6 +225,22 @@ class DetectUnifiedTests(unittest.TestCase):
         self.assertEqual(len(boxes), 4)
         self.assertGreaterEqual(len({b.x for b in boxes}), 2)
 
+    @unittest.skipUnless(FIXTURE_PAGE04.exists(), "page-04 fixture missing")
+    def test_detect_falls_back_to_contour_on_page04(self) -> None:
+        boxes = CardDetector().detect(FIXTURE_PAGE04)
+        self.assertIsInstance(boxes, list)
+        self.assertGreaterEqual(len(boxes), 2)
+        self.assertGreaterEqual(len({b.x for b in boxes}), 2)
+        self.assertGreaterEqual(len({b.y for b in boxes}), 2)
+
+    def test_detect_on_synthetic_contour_image_returns_boxes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "contours.png"
+            _make_contour_image(p)
+            boxes = CardDetector().detect(p)
+        self.assertIsInstance(boxes, list)
+        self.assertGreaterEqual(len(boxes), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
