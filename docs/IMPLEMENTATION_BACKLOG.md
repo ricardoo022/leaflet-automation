@@ -35,7 +35,7 @@ It also distinguishes between what already exists and what still needs to be bui
 
 - PDF-based extraction fallback
 - Stronger exact product and price extraction across more leaflet layouts
-- Richer product-block detection than vertical page slicing — the grid detector (`services/cards.py`, US-1.1) is implemented but not wired into the adapter (US-3.1) and saturates to full-width strips on dense real pages; the OpenCV contour fallback (US-1.2) and per-card regression (US-5.2) are still pending
+- Richer product-block detection than vertical page slicing — the grid detector (`services/cards.py`, US-1.1) and OpenCV contour fallback (US-1.2 ✅ DONE, PR #3) are implemented but not wired into the adapter (wiring is US-3.1) and the unified `CardDetector.detect()` orchestrator (US-1.3) is still pending; per-card regression (US-5.2) tightens density on dense real pages
 - Broader automated coverage and CI wiring
 
 ## Epic 1: Deliver a Usable Lidl Extraction Workflow

@@ -24,7 +24,7 @@ What is still incomplete:
 
 - persisted leaflet page snapshots in SQLite
 - PDF-based extraction fallback
-- stronger product block detection beyond heuristic page slicing — the retailer-agnostic grid detector (`src/leaflet_automation/services/cards.py`, US-1.1) is implemented and unit-tested but not yet wired into the adapter (US-3.1) and saturates on dense real pages; the OpenCV contour fallback (US-1.2) is next
+- stronger product block detection beyond heuristic page slicing — the retailer-agnostic grid detector (`src/leaflet_automation/services/cards.py`, US-1.1) and OpenCV contour fallback (US-1.2 ✅ DONE, PR #3) are implemented and unit-tested but not yet wired into the adapter (wiring is US-3.1); the unified `CardDetector.detect()` orchestrator is US-1.3 (pending)
 - more robust exact product and price extraction across leaflet layouts
 - multi-retailer support and production hardening
 
@@ -107,8 +107,7 @@ Read that document before changing:
 
 - extraction may re-fetch live leaflet metadata only as a fallback for older databases without persisted pages
 - PDF extraction is still a stub
-- product block detection is still heuristic
-- product block detection is still heuristic (grid detector exists in `services/cards.py` but is not wired into the adapter yet — US-3.1)
+- product block detection is still heuristic (grid detector US-1.1 + contour fallback US-1.2 ✅ DONE exist in `services/cards.py` but are not wired into the adapter yet — wiring is US-3.1; the unified `CardDetector.detect()` orchestrator is US-1.3)
 - live-network tests depend on Lidl endpoints and asset hosts being reachable
 
 ## Key Files

@@ -68,6 +68,15 @@ def _make_grid_image(path: Path) -> None:
     img.save(path)
 
 
+def _make_contour_image(path: Path) -> None:
+    img = Image.new("RGB", (600, 400), (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([20, 20, 170, 170], fill=(30, 30, 30))
+    draw.rectangle([240, 30, 410, 160], fill=(30, 30, 30))
+    draw.rectangle([450, 200, 580, 360], fill=(30, 30, 30))
+    img.save(path)
+
+
 class GridDetectorSyntheticTests(unittest.TestCase):
     def test_detects_four_cells_in_2x2_grid(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -130,6 +139,81 @@ class GridDetectorPage04Tests(unittest.TestCase):
             total = img.size[0] * img.size[1]
         covered = sum(b.w * b.h for b in boxes)
         self.assertGreater(covered / total, 0.40)
+
+
+class ContourDetectorDegenerateTests(unittest.TestCase):
+    def test_solid_white_image_returns_empty_list(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "white.png"
+            _make_solid_image(p, (200, 200), (255, 255, 255))
+            self.assertEqual(CardDetector()._contour_boxes(p), [])
+
+    def test_solid_black_image_returns_empty_list(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "black.png"
+            _make_solid_image(p, (200, 200), (0, 0, 0))
+            self.assertEqual(CardDetector()._contour_boxes(p), [])
+
+    def test_empty_image_does_not_raise(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "tiny.png"
+            _make_solid_image(p, (1, 1), (255, 255, 255))
+            result = CardDetector()._contour_boxes(p)
+            self.assertIsInstance(result, list)
+
+    def test_missing_file_returns_empty_list(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "does_not_exist.png"
+            self.assertEqual(CardDetector()._contour_boxes(p), [])
+
+
+class ContourDetectorSyntheticTests(unittest.TestCase):
+    def test_detects_three_rectangles(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "contours.png"
+            _make_contour_image(p)
+            boxes = CardDetector()._contour_boxes(p)
+        self.assertGreaterEqual(len(boxes), 3)
+
+    def test_boxes_sorted_top_to_bottom_left_to_right(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "contours.png"
+            _make_contour_image(p)
+            boxes = CardDetector()._contour_boxes(p)
+        keys = [(b.y, b.x) for b in boxes]
+        self.assertEqual(keys, sorted(keys))
+
+    def test_boxes_do_not_overlap(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "contours.png"
+            _make_contour_image(p)
+            boxes = CardDetector()._contour_boxes(p)
+        for i, a in enumerate(boxes):
+            for b in boxes[i + 1:]:
+                overlap_x = max(0, min(a.x + a.w, b.x + b.w) - max(a.x, b.x))
+                overlap_y = max(0, min(a.y + a.h, b.y + b.h) - max(a.y, b.y))
+                self.assertEqual(overlap_x * overlap_y, 0)
+
+
+@unittest.skipUnless(FIXTURE_PAGE04.exists(), "page-04 fixture missing")
+class ContourDetectorPage04Tests(unittest.TestCase):
+    def test_page04_yields_at_least_two_boxes(self) -> None:
+        boxes = CardDetector()._contour_boxes(FIXTURE_PAGE04)
+        self.assertGreaterEqual(len(boxes), 2)
+
+    def test_page04_boxes_sorted_and_non_overlapping(self) -> None:
+        boxes = CardDetector()._contour_boxes(FIXTURE_PAGE04)
+        keys = [(b.y, b.x) for b in boxes]
+        self.assertEqual(keys, sorted(keys))
+        for i, a in enumerate(boxes):
+            for b in boxes[i + 1:]:
+                overlap_x = max(0, min(a.x + a.w, b.x + b.w) - max(a.x, b.x))
+                overlap_y = max(0, min(a.y + a.h, b.y + b.h) - max(a.y, b.y))
+                self.assertEqual(overlap_x * overlap_y, 0)
+
+    def test_page04_has_at_least_two_distinct_columns(self) -> None:
+        boxes = CardDetector()._contour_boxes(FIXTURE_PAGE04)
+        self.assertGreaterEqual(len({box.x for box in boxes}), 2)
 
 
 if __name__ == "__main__":
