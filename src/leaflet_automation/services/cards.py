@@ -66,6 +66,21 @@ class CardDetector:
                 boxes.append(CardBox(x=int(x0), y=int(y0), w=int(x1 - x0), h=int(y1 - y0)))
         return self._sort_tb_lr(boxes)
 
+    def detect(self, image_path: Path) -> list[CardBox]:
+        try:
+            grid = self._grid_boxes(image_path)
+        except (FileNotFoundError, OSError):
+            grid = []
+        if self._is_clean_grid(grid):
+            return grid
+        return self._contour_boxes(image_path)
+
+    @staticmethod
+    def _is_clean_grid(boxes: list[CardBox]) -> bool:
+        if len(boxes) < 2:
+            return False
+        return len({b.x for b in boxes}) >= 2
+
     def _content_bands(self, profile: np.ndarray) -> list[tuple[int, int]]:
         if profile.size == 0:
             return []

@@ -216,5 +216,59 @@ class ContourDetectorPage04Tests(unittest.TestCase):
         self.assertGreaterEqual(len({box.x for box in boxes}), 2)
 
 
+class DetectUnifiedTests(unittest.TestCase):
+    def test_detect_returns_grid_boxes_for_clean_synthetic_grid(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "grid.png"
+            _make_grid_image(p)
+            boxes = CardDetector().detect(p)
+        self.assertEqual(len(boxes), 4)
+        self.assertGreaterEqual(len({b.x for b in boxes}), 2)
+
+    @unittest.skipUnless(FIXTURE_PAGE04.exists(), "page-04 fixture missing")
+    def test_detect_falls_back_to_contour_on_page04(self) -> None:
+        boxes = CardDetector().detect(FIXTURE_PAGE04)
+        self.assertIsInstance(boxes, list)
+        self.assertGreaterEqual(len(boxes), 2)
+        self.assertGreaterEqual(len({b.x for b in boxes}), 2)
+        self.assertGreaterEqual(len({b.y for b in boxes}), 2)
+
+    def test_detect_on_synthetic_contour_image_returns_boxes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "contours.png"
+            _make_contour_image(p)
+            boxes = CardDetector().detect(p)
+        self.assertIsInstance(boxes, list)
+        self.assertGreaterEqual(len(boxes), 1)
+
+    def test_detect_does_not_raise_on_missing_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "does_not_exist.png"
+            result = CardDetector().detect(p)
+        self.assertIsInstance(result, list)
+        self.assertEqual(result, [])
+
+    def test_detect_returns_empty_list_not_none_on_solid_image(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "white.png"
+            _make_solid_image(p, (200, 200), (255, 255, 255))
+            result = CardDetector().detect(p)
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertEqual(result, [])
+
+    @unittest.skipUnless(FIXTURE_PAGE04.exists(), "page-04 fixture missing")
+    def test_detect_returns_sorted_list_top_to_bottom_left_to_right(self) -> None:
+        boxes = CardDetector().detect(FIXTURE_PAGE04)
+        self.assertGreaterEqual(len(boxes), 1)
+        keys = [(b.y, b.x) for b in boxes]
+        self.assertEqual(keys, sorted(keys))
+
+    def test_cardbox_importable_from_cards_module(self) -> None:
+        from leaflet_automation.services.cards import CardBox
+        box = CardBox(x=1, y=2, w=3, h=4)
+        self.assertEqual((box.x, box.y, box.w, box.h), (1, 2, 3, 4))
+
+
 if __name__ == "__main__":
     unittest.main()
