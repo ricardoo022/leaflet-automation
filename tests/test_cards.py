@@ -248,6 +248,27 @@ class DetectUnifiedTests(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertEqual(result, [])
 
+    def test_detect_returns_empty_list_not_none_on_solid_image(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "white.png"
+            _make_solid_image(p, (200, 200), (255, 255, 255))
+            result = CardDetector().detect(p)
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertEqual(result, [])
+
+    @unittest.skipUnless(FIXTURE_PAGE04.exists(), "page-04 fixture missing")
+    def test_detect_returns_sorted_list_top_to_bottom_left_to_right(self) -> None:
+        boxes = CardDetector().detect(FIXTURE_PAGE04)
+        self.assertGreaterEqual(len(boxes), 1)
+        keys = [(b.y, b.x) for b in boxes]
+        self.assertEqual(keys, sorted(keys))
+
+    def test_cardbox_importable_from_cards_module(self) -> None:
+        from leaflet_automation.services.cards import CardBox
+        box = CardBox(x=1, y=2, w=3, h=4)
+        self.assertEqual((box.x, box.y, box.w, box.h), (1, 2, 3, 4))
+
 
 if __name__ == "__main__":
     unittest.main()
