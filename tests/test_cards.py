@@ -216,5 +216,15 @@ class ContourDetectorPage04Tests(unittest.TestCase):
         self.assertGreaterEqual(len({box.x for box in boxes}), 2)
 
 
+class DetectUnifiedTests(unittest.TestCase):
+    def test_detect_returns_grid_boxes_for_clean_synthetic_grid(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "grid.png"
+            _make_grid_image(p)
+            boxes = CardDetector().detect(p)
+        self.assertEqual(len(boxes), 4)
+        self.assertGreaterEqual(len({b.x for b in boxes}), 2)
+
+
 if __name__ == "__main__":
     unittest.main()
